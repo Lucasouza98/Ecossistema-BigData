@@ -1,0 +1,76 @@
+docker-compose up -d -> iniciar todos serviços em backgroud.
+docker-compose stop -> parar os serviços
+docker-compose start -> iniciar os serviços
+docker-compose down -> matar os serviços
+docker volume prune -> apagar todos os volumes sem uso
+docker system prune --all -> apagar tudo (image, volume, network)
+
+-- containers --
+VISUALIZAR CONTAINERS
+docker ps -> ativos
+docker ps -a -> todos
+
+EXECUTAR COMANDOS NO CONTAINER
+docker exec -it namenode ls
+
+VISUALIZAR LOGS
+docker logs<container>
+docker-compose logs
+
+ENVIAR ARQUIVOS
+docker cp<>diretorio><container>:/<diretorio>
+
+ACESSO CONTAINER
+docker exec -it namenode bash
+
+ACESSO O CONTAINER DO HIVE
+docker exec -it hive-server bash
+
+
+-- HDFS --
+mkdir -> criar diretórios
+mkdir -p <diretorio>/<diretorio>/<diretorio> -> cria estrutura de diretórios
+
+ls<diretorio> -> lista diretórios
+Recursivo -R
+
+rm<src> -> Remoção diretórios
+-r deletar diretorio
+-skipTrash -> remover permanentemente
+
+HDFS/LOCAL
+
+ENVIAR ARQUIVO OU DIRETÓRIO
+put<src><dst>
+-f -> sobrescreve o destino, se já existir.
+-l -> força um fator de replicação
+
+copyFromlocal<src><dst>
+
+Mover arquivo ou diretório
+-> Put que deleta do local
+-> moveFromLocal<srv><dst>
+
+HDFS/LOCAL
+receber arquivo ou diretorio
+-> get <src> <dst>
+	argumento -f (sobrescrever)
+
+criar um unico arquivo mesclado -> unificar varios arquivos
+getmerge <src><dst>
+
+mover para o local
+Get que deleta a cópia do HDFS
+moveToLocal <src><localdst>
+
+
+HDFS/HDFS
+cp -> copia arquivos
+-f funciona também
+
+mv<src <dts>
+mv <arquivo1><arquivo2><arquivo3><dst>
+
+
+hdfs dfs -stat %o /user/aluno/lucaslira/data/escola/alunos.csv
+134217728 / 1024 = consiste no valor em mb do arquivo

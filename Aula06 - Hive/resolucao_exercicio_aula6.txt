@@ -1,0 +1,42 @@
+1. Usar o banco de dados <nome>
+use treinamento_semantix;
+
+2. Selecionar os 10 primeiros registros da tabela pop
+select * from pop limit 10;
+
+3. Criar a tabela pop_parquet no formato parquet para ler os dados da tabela pop
+create table pop_parquet
+row format delimited
+fields terminated by '|'
+stored as parquet
+as select * from pop;
+
+4. Inserir os dados da tabela pop na pop_parquet
+INSERT INTO table pop_parquet select * FROM pop_parquet;
+
+5. Contar os registros da tabela pop_parquet
+select count(*) from pop_parquet;
+
+6. Selecionar os 10 primeiros registros da tabela pop_parquet
+select * from pop_parquet limit 10;
+
+7. Criar a tabela pop_parquet_snappy no formato parquet com compressão Snappy para ler os dados da tabela pop
+create table pop_parquet_snappy
+row format delimited
+fields terminated by '|'
+stored as parquet
+TBLPROPERTIES('PARQUET.COMPRESS'='SNAPPY')
+as select * from pop;
+
+8. Inserir os dados da tabela pop na pop_parquet_snappy
+INSERT INTO table pop_parquet_snappy select * FROM pop;
+
+
+9. Contar os registros da tabela pop_parquet_snappy
+select count(*) from pop_parquet_snappy;
+
+10. Selecionar os 10 primeiros registros da tabela pop_parquet_snappy
+select * from pop_parquet_snappy limit 10;
+
+11. Comparar as tabelas pop, pop_parquet e pop_parquet_snappy no HDFS.
+hadoop fs -du -h /user/hive/warehouse -> -h de humando.

@@ -1,0 +1,233 @@
+Semantix Academy
+
+Big data fundamentals
+
+* Categorias e caracteristicas do big data (3v, 5v e 10v)
+
+1.Volume
+2.Velocidade
+3.Variedade
+4.Veracidade
+5.Valor
+6.Variabilidade
+7.Validade
+8.Vulnerabilidade
+9.Volatidade
+10.Visualização
+
+* Qual arquitetura usar? Crescimento Vertical ou Horizontal?
+
+- Armazenar, processar e analisar dados
+
+Em big data usamos o crescimento Horizontal, que é pela quantidade de computadores. (Hadoop)
+
+*Hadoop (Apache Hadoop)
+- Software open-source para computação distribuída, confiável e escalável. (Aprender linux) + SQL
+ - Framework
+   - Modelos de programação simples
+   - Processamento distribuído
+   - Grandes conjuntos de dados
+   - Clusters de computadores
+    * Hardware commodity
+- Projeto Hadoop propõem soluções para sistemas distribuídos em um único framework.
+
+* Como funciona o hadoop
+ -Implementa um paradigma chamado Map/Reduce
+  -Aplicação dividida em vários pequenos fragmentos de jobs
+  - Cada um pode ser executado ou reexecutado em qualuqer nó do cluster
+ 
+ -Fornece um sistema de arquivos distribuídos (HDFS)
+  -Armazena dados nos nós
+   -Fornece uma largura de banda agregada muito alta em todo cluster MapReduce
+   -Projetado para que as falhas de nó sejam tratadas automaticamente pelo framework
+   
+* O que é o HDFS (Hadoop Distributed file System)
+ -HDFS
+ 
+ -Sistema de Arquivos distribuido do Hadoop
+ 
+ -Vantagens
+  -Baixo custo
+  -Tolerante a falhas
+  -Escalável
+ 
+ -Armazenamento de um arquivo do HDFS
+  -Sistema divide-os em conjuntos de blocos individuais
+  -Armazena esses blocos em vários nós escravos no cluester hadoop
+ 
+ -Blocos de armazenamento
+  - Linux: 4KB
+  - Hadoop: 128MB (Valor padrão em todas as empresas usam 128MB) + 1MB
+  
+ 
+* HDFS Armazenamento 
+ - HDFS assume que cada unidade de disco e cada nó escravo é confiável 100%
+  - 3 cópias dos blocos que são armazenados
+ 
+ - Arquitetura mestre (NameNode) / Escravo(DataNode)
+  -NameNode
+   -Armazenar os metados dos arquivos
+   -Componente central do HDFS
+  -DataNode
+   -Armazenar os dados
+   
+* HDFS Estrutura
+
+          job      nó Mestre                 Nós Escravos
+Cliente ------->  (NameNode) ------> DataNode (A1) (B2) (A3) (A2) (B1) (B3).
+
+* MapReduce Processamento
+ -Framwork que organiza as tarefas de processamento complexas atraves de cluster de computadores
+  -Divide o trabalho em um conjunto de tarefas independentes
+ 
+ -Processo do MapReduce
+  - Split
+  - Map
+  - Shuffle
+  - Reduce
+  
+* MapReduce Funcionamento
+ -Exemplo
+  -Exemplo de contar palavras
+   Mapear (Chave / Valor - palavra/quantidade
+   Reduce (Juntar as chaves - palavras)
+   
+* MapReduce 1 Estrutura
+ 
+ -Daemons para executar um job ( É o que executa o job)
+ 
+ - 1 Jobtracker (Responsável por executar, agendar ,monitorar e armazenar os logs os taskstrackers) (Tasktracker: responsável por executar as tarefas)
+   -Coordenar todas as tarefas executadas no sistema
+    - Agendar tarefas para serem executadas no sistema
+	- Monitorar as taskstrackers
+	 -Reagendar - falha ou lenta
+	-Armazenar o histórico de tarefas concluídas
+	
+   -N Tasktracker
+    - Executam tarefas e enviam relatórios de progresso para o jobtracker
+	
+       Cluste HDFS  -------> Armazenamento
+Jobs de Map Reduce  -------> Processamento
+
+          Job             Nó Mestre                        Nós Escravos
+Cliente ----------> (NameNode / Jobtracker) --------> (DataNode / Tasktracker)  Obs: (Itens resposaveis pelo processamento e outros pelo armazenamento)
+
+* YARN (Yet Another Resource Negotiator)
+  -YARN
+  - Outro Negociador de Recuros
+   -Oferecer parelelismo de tarefas
+   -Dividir as funcionalidades de grenciamento de recursos e agendamento/monitoramento de tarefas em daemos separadas
+  -Framework de mapreduce
+  -Versão do Hadoop 1 e inferior
+   -"MapReduce 1"
+  -Versão do Hadoop 2
+   -MapReduce 2 = MapReduce 1 com YARN
+   
+*Modos do Sistema
+ -Modo Local
+  -Standalone
+ -Modo Pseudo distribuido
+  -Sigle Node Cluster
+ -Modo Totalmente distribuído
+  -Multi Node Cluster
+  
+* Yarn Estrutura
+ -Daemons para executar um job
+ -1 Resource Manager (RM)
+  -Coordenar todas as tarefas executadas no sistema
+   -Agendar tarefas para serem executadas nos nodes managers
+ - 1 Aplication Master (AM)
+  -Monitorar os Node Manager
+   -Reagendar -fala ou lenta
+ - 1 Timeline server
+  -Armazenar o histório de aplicativos
+ - N Node Manager
+  -Executam tarefas nos contêineres e enviam relatórios de progresso para o RM
+
+*Yarn Arquitetura
+ -Enviar Job para RM Resource Manager solicita um container para NM
+ 
+           Job              Nó Mestre                            Nós Escravos
+Cliente ---------> (Namenode/Resource Manager) ----------> Node Manager (DataNode) -------> Container
+
+*Outros Nós que podem ter na arquitetura Hadoop
+
+* Secondary Node
+ -Namenode
+  -FsImage - Armazemar informações estruturais dos blocos
+  -Editlog - Armazenar todas as alterações ocorridas no metadados dos arquivos
+  
+ -Cria Checkpoints no NameNode
+  -FsImage.ckpt = FsImage + Editlog
+  
+ - Em caso de failover do NameNode
+  - Precisa recuperar manualmente os dados do Namenode secundário.
+  
+* Standby NameNode
+ -Se comunica com o namenode
+  -JournalNodes
+ -Também é um NameNode
+  -Ativo
+  - Espera
+ -Em caso de failover do NameNode
+  -Standby entra automaticamente no seu lugar
+  -Datanode se comunicam com o NameNode e standby NameNode
+   - Configurados o diretórios dos 2 como NameNode
+
+* Edge Node
+ -Gateway Node
+  -São inferface entre o cluster do Hadoop e a rede externa
+  -Diminuir o uso de recursos do NameNode
+  -Executar aplicativos clientes
+  -Transferidos os dados para o cluster do Hadoop
+  -Ferramentas de gerenciamento
+  
+* Atualidades
+
+ -Datalake
+  - Repositório central dos dados (Entrada - Ingestão - Armazenamento - Processamento - Analise de dados - Saída
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+  
+
+  
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+

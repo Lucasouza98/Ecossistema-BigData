@@ -1,0 +1,15 @@
+1° IMPORTAR A TABELA DO MYSQL PARA O HDFS
+2° hadoop fs -ls -h -R /user/hive/warehouse/db_test3 -> ENCONTRAR ARQUIVO IMPORTADO NO HDFS
+3° CRIAR TABELA: 
+CREATE EXTERNAL TABLE IF NOT EXISTS test_ext
+(
+rental_id int,
+rental_date TIMESTAMP
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/aluno/lucaslira/data/test_import';
+
+4° LOAD PARA ENVIAR PARA TABELA -> LOAD DATA INPATH '/user/hive/warehouse/db_test3/cp_rental_id/part-m-00001' INTO TABLE test_ext;
+

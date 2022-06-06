@@ -1,0 +1,28 @@
+1. Pesquisar os 10 primeiros registros da tabela employees do banco de dados employees
+sqoop eval --connect jdbc:mysql://database/employees --username=root --password=secret --query="select * from employees limit 10"
+
+2. Realizar as importações referentes a tabela employees e para validar cada questão,  é necessário visualizar no HDFS*
+
+Importar a tabela employees, no warehouse  /user/hive/warehouse/db_test_a
+sqoop import --table employees --connect jdbc:mysql://database/employees --username=root --password=secret --warehouse-dir /user/hive/warehouse/db_test_a
+hdfs dfs -cat /user/hive/warehouse/db_test_a/employees/part-m-00000 | head -n 5 --> VALIDANDO SE FOI IMPORTANDO COM SUCESSO
+
+Importar todos os funcionários do gênero masculino, no warehouse  /user/hive/warehouse/db_test_b
+sqoop import --table employees --connect jdbc:mysql://database/employees --username=root --password=secret --where="gender='M'" --warehouse-dir /user/hive/warehouse/db_test_b
+
+importar o primeiro e o último nome dos funcionários com os campos separados por tabulação, no warehouse  /user/hive/warehouse/db_test_c
+sqoop import --table employees --connect jdbc:mysql://database/employees --username=root --password=secret --fields-terminated-by '\t' --columns "first_name,last_name"  --warehouse-dir /user/hive/warehouse/db_test_c
+
+Importar o primeiro e o último nome dos funcionários com as linhas separadas por “ : ” e salvar no mesmo diretório da questão 2.C
+sqoop import --table employees --connect jdbc:mysql://database/employees --username=root --password=secret --lines-terminated-by ':' --columns "first_name,last_name"  
+--warehouse-dir /user/hive/warehouse/db_test_c -delete-target-dir
+
+* Dica para visualizar no HDFS:
+$ hdfs dfs -cat /.../db_test/nomeTabela/part-m-00000 | head -n 5
+
+
+IMPORTAR PARA HIVE 
+https://www.codetd.com/pt/article/12978158
+
+IMPORTAR TODAS TABELAS
+https://techvidvan.com/tutorials/apache-sqoop-import-all-tables/#:~:text=The%20Sqoop%20import%2Dall%2Dtables,tables%20tool%20to%20be%20useful.

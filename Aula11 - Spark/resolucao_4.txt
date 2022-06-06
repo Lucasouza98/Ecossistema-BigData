@@ -1,0 +1,13 @@
+val tabAlunosDF = spark.read.table("tab_alunos")
+
+1. Visualizar o id e nome dos 5 primeiros registros
+tabAlunosDF.select("id_discente","nome").limit(5).show()
+
+2. Visualizar o id, nome e ano quando o ano de ingresso for maior ou igual a 2018
+spark.sql("select id_discente,nome, ano_ingresso from tab_alunos where ano_ingresso > 2018").show()
+
+3. Visualizar por ordem alfabética do nome o id, nome e ano quando o ano de ingresso for maior ou igual a 2018
+spark.sql("select id_discente,nome, ano_ingresso from tab_alunos where ano_ingresso >= 2018 order by nome asc").show(5)
+
+4. Contar a quantidade de registros do item anterior
+spark.sql("select count(id_discente) from tab_alunos where ano_ingresso >= 2018").show

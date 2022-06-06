@@ -1,0 +1,48 @@
+Anotações Aula 01 - Introdução Big Data
+
+3V
+Volume 
+velocidade
+Variedade
+
+Quando dizemos Big Data se trata de Terabyte para Pentabyte.
+Em Big Data utilizamos o crescimento horizontal aumentando o número de computadores.
+
+Apache hadoop: Software open source para computação distribuida confiavel e escalavel.
+-> programação simples (linux)
+-> processamento distribuido
+-> grande conjunto de dados
+-> clusters de computadores
+	-> hardware commodity
+
+Utiliza-se o Hadoop para fazer essa arquitetura horizontal, para não investir em tecnologia que as vezes não existe, é aumentando o número de computadores.
+
+MapReduce: Dividir um grande problema em vários pedaços e distribui-los em diversos PCS
+
+HDFS:
+geralmente é utilizado 128mb por blocos, exemplo: possui um arquivo com 513mb será dividido em 4 blocos de 128mb e 1 bloco de 1mb.
+Mas pode ser alterado esse valor, exemplo ao invés de 128 ser 256.
+
+Hadoop para arquivo que for utilizar ele cria uma copia de mais 2, existindo 3 arquivos do mesmo por questões de segurança.
+
+Arquitetura:
+Mestre NameNode -> componente central ele salva os metadados (informações sobre os dados)
+Escravo DataNode -> responsave por armazenar os dados.
+
+Temos o nó mestre responsavel por armazenar os metadados que é a informação sobre os dados, ele não armazena os dados em sim. E temos o nó escravo que é responsavel por armazenar os dados.
+nesse fluxo, exemplo -> existe o JOB (arquivo) esse arquivo vai para o nó mestre que irá gerir o metadado, e esse metadado irá para o nó escravo que será dividido em vários nós escravos por conta das cópias e cada cópia ficará em 1 datanode diferente para se caso cair o datanode não perde o original e a cópia.
+
+em mapreduce temos os daemons para executar um job
+
+1 jobtracker 
+-> coordena todas as tarefas executadas no sistema
+  -> agenda tarefas para serem executadas em tasktrackers
+  -> monitora as tasktrackers
+	-> reagendas -> falha ou lenta
+-> armazenar o histórico de tarefas concluídos
+
+N tasktracker
+-> Executam tarefas e enviam relatórios de progresso para o jobtracker
+
+
+/hadoop/dfs/name/dados_adventure

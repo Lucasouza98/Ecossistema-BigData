@@ -1,0 +1,8 @@
+caso seja necessário
+
+Adicionar o jar para salvar tabelas Hive:
+
+curl -O https://repo1.maven.org/maven2/com/twitter/parquet-hadoop-bundle/1.6.0/parquet-hadoop-bundle-1.6.0.jar (Links para um site externo.)
+docker cp parquet-hadoop-bundle-1.6.0.jar spark:/opt/spark/jars
+
+esse comando docker cp copia de um container para outro
